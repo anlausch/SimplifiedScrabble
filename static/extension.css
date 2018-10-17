@@ -1,0 +1,48 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px; /* Margin bottom by footer height */
+}
+
+#header{
+    background-color: #78C0F9;
+}
+
+.display-4{
+  color: white;
+  font-weight: bold;
+}
+
+.sticky {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px; /* Set the fixed height of the footer here */ line-height: 60px; /* Vertically center the text there */
+  background-color: white;
+}
+
+td {
+  width:100px;
+  height:100px;
+  text-align:center;
+  vertical-align:middle !important;
+}
+
+button {
+  background-color: #A2F8BB;
+}
+
+.highlighted {
+  background-color: #DAD4FF;
+}
+
+.correct {
+  background-color: #A2F8BB;
+}
+
+.wrong {
+  background-color: #FE86A4;
+}
