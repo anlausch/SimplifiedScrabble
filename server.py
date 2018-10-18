@@ -36,7 +36,7 @@ def create_board():
 
         logger.info("Selected dimension: " + json.dumps(dimension))
         dimension = int(dimension)
-        server.scrabble.create_board(dim=dimension)
+        server.scrabble.create_board(dim=dimension, num_words_insert=dimension)
         #server.scrabble.get_solutions()
         return render_template("index.html", board=server.scrabble.board)
     except Exception as e:
