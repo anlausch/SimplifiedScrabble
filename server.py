@@ -47,7 +47,7 @@ def create_board():
 def show_solution():
     try:
         server.scrabble.get_solutions()
-        return render_template("index.html", board=server.scrabble.board, solutions=server.scrabble.allsolutions)
+        return json.dumps(server.scrabble.allsolutions)
     except Exception as e:
         return str(e)
 

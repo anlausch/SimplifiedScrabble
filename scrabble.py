@@ -26,7 +26,7 @@ class Scrabble():
         self.transitions = self.transitions / row_sums[:, numpy.newaxis]
         self.priors = row_sums / row_sums.sum()
 
-    def create_board(self, letters_path="./vocab/letters.txt", dim=15):
+    def create_board(self, letters_path="./vocab/letters.txt", dim=15, num_words_insert=5):
         self.board_size = dim
         self.board = numpy.full((dim, dim), '-')
         for i in range(self.board_size):
@@ -48,6 +48,40 @@ class Scrabble():
                         self.board[i, j] = letter_hor
                     else:
                         self.board[i, j] = letter_ver
+        inserted = 0
+        blocked = []
+        while inserted < num_words_insert:
+            w = list(self.vocabulary.keys())[numpy.random.randint(0, len(self.vocabulary))]
+            if len(w) <= 4:
+                continue
+            ind_i = numpy.random.randint(0, self.board_size)
+            ind_j = numpy.random.randint(0, self.board_size)
+            dimension = "h" if numpy.random.rand() >= 0.5 else "v"
+            direction = "plus" if numpy.random.rand() >= 0.5 else "minus"
+            if ((dimension == "h" and direction == "plus" and ind_j + len(w) > self.board_size) or
+                    (dimension == "v" and direction == "plus" and ind_i + len(w) > self.board_size) or
+                    (dimension == "h" and direction == "minus" and ind_j - len(w) < 0) or
+                    (dimension == "v" and direction == "minus" and ind_i - len(w) < 0)):
+                continue
+
+            cells = []
+            if (dimension == "h" and direction == "plus"):
+                cells = [(ind_i, ind_j + x) for x in (range(len(w)))]
+            elif (dimension == "v" and direction == "plus"):
+                cells = [(ind_i + x, ind_j) for x in (range(len(w)))]
+            elif (dimension == "h" and direction == "minus"):
+                cells = [(ind_i, ind_j - x) for x in (range(len(w)))]
+            elif (dimension == "v" and direction == "minus"):
+                cells = [(ind_i - x, ind_j) for x in (range(len(w)))]
+
+            is_blocked = len([c for c in cells if len([b for b in blocked if b[0] == c[0] and b[1] == c[1]]) > 0]) > 0
+            if is_blocked:
+                continue
+
+            for i in range(len(cells)):
+                self.board[cells[i][0], cells[i][1]] = w[i]
+                blocked.append(cells[i])
+            inserted += 1
 
     def get_solutions(self, min_len=3, level=0.5):
         sols_hor = self.find_words(horizontal=True, min_len=min_len)

@@ -6,6 +6,9 @@ $(function () {
     $("#board td")
         .mousedown(function () {
             isMouseDown = true;
+            solution = [];
+            var highlighted = $( ".highlighted" );
+            highlighted.removeClass("highlighted");
             $(this).toggleClass("highlighted");
             isHighlighted = $(this).hasClass("highlighted");
             if(isHighlighted){
@@ -24,7 +27,7 @@ $(function () {
         .bind("selectstart", function () {
             return false;
         });
-    $(document)
+    $("#board td")
         .mouseup(function () {
             isMouseDown = false;
             if (solution.length > 0) {
@@ -34,7 +37,6 @@ $(function () {
                     url: "/validate",
                     data: {data : text}
                 }).done(function (response) {
-                    solution = [];
                     var highlighted = $( ".highlighted" );
                     if(response == "true"){
                         // highlight cells in green
@@ -53,6 +55,19 @@ $(function () {
         });
 });
 
+function getSolution(){
+    $.ajax({
+        method: "POST",
+        url: "/solution",
+    }).done(function (response) {
+        response = JSON.parse(response);
+        $("#main").append('<h3 id="solution" class="display-5">Die Lösungen unseres Systems sind </h3>');
+        for(var sol in response){
+            $("#main").append('<li>' + response[sol] + '</li>');
+        }
+        $("#fakeloader").hide();
+    });
+}
 
 $('.btn').on('click', function() {
    $("#fakeloader").fakeLoader({

@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container" id="main">
     {% if error %}
         <div class="alert alert-danger" role="alert">
             <h4 class="alert-heading">Achtung</h4>
@@ -45,22 +45,13 @@
                 {% for row in board %}
                     <tr>
                         {% for cell in row %}
-                            <td onclick="letterClicked(this)">{{ cell }}</td>
+                            <td>{{ cell }}</td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-        {% if solutions is not defined %}
-            <form method="post" action="/solution">
-                <button type="submit" class="btn btn-lg btn-block">Lösungen anzeigen!</button>
-            </form>
-        {% else %}
-            <h3 class="display-5">Die Lösungen unseres Systems sind: </h3>
-            {% for sol in solutions %}
-                <li>{{ sol }}</li>
-            {% endfor %}
-        {% endif %}
+        <button onclick="getSolution()" class="btn btn-lg btn-block">Lösungen anzeigen!</button>
     {% endif %}
 </div>
 
