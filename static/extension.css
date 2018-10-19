@@ -25,10 +25,11 @@ body {
 }
 
 td {
-  width:100px;
-  height:100px;
+  width:2rem;
+  height:2rem;
   text-align:center;
   vertical-align:middle !important;
+  font-size: large;
 }
 
 button {
@@ -43,6 +44,20 @@ button {
   background-color: #A2F8BB;
 }
 
+.sol {
+  background-color: #A2F8BB;
+}
+
 .wrong {
   background-color: #FE86A4;
+}
+
+li {
+  font-size: large;
+}
+
+li:hover {
+  font-size: larger;
+  background-color: #DAD4FF;
+  cursor: pointer;
 }
